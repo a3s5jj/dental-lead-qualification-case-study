@@ -1,0 +1,43 @@
+[
+  {
+    "business_name": "Example Dental North",
+    "source": "Synthetic Directory",
+    "source_url": "https://directory.example.test/example-dental-north",
+    "city_area": "Example City",
+    "email": "appointments@example.test",
+    "phone": "Not found",
+    "website": "https://clinic.example.test",
+    "facebook": "Needs manual review",
+    "services_found": ["consultations", "preventive care"],
+    "booking_method": "website inquiry form",
+    "lead_score": 72,
+    "priority": "Medium-High",
+    "reason_for_score": [
+      "appointment-based",
+      "public digital contact",
+      "manual follow-up visible"
+    ],
+    "recommended_offer_angle": "Respond to web inquiries and route appointment requests",
+    "review_state": "manual_review"
+  },
+  {
+    "business_name": "Sample Family Dental",
+    "source": "Synthetic Maps",
+    "source_url": "https://maps.example.test/sample-family-dental",
+    "city_area": "Demo District",
+    "email": "Not found",
+    "phone": "+1 202-555-0100",
+    "website": "Not found",
+    "facebook": "https://social.example.test/sample-family-dental",
+    "services_found": ["general dentistry"],
+    "booking_method": "phone or social message",
+    "lead_score": 64,
+    "priority": "Medium",
+    "reason_for_score": [
+      "appointment-based",
+      "limited online booking path"
+    ],
+    "recommended_offer_angle": "Capture after-hours messages for staff review",
+    "review_state": "ready_for_human_review"
+  }
+]

@@ -1,0 +1,13 @@
+.env
+.env.*
+outputs/
+.state/
+.tmp/
+browser-data/
+*.csv
+*.xlsx
+*.sqlite
+*.db
+*.zip
+*.bak
+*.backup
