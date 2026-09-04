@@ -27,15 +27,31 @@ an unusable workbook.
 ```mermaid
 flowchart LR
   A[Source-specific discovery] --> B[Normalize record]
-  B --> C[Qualify appointment fit]
-  C --> D[Deduplicate]
-  D --> E[Find missing public contacts]
+  B --> C{Appointment fit}
+  C -->|no| X[Dropped]
+  C -->|yes| D{Duplicate}
+  D -->|yes| X
+  D -->|no| E[Find missing public contacts]
   E --> F[Validate link liveness]
   F --> G[Enrich public fields]
   G --> H[Reconcile score]
-  H --> I[Contactability filter]
-  I --> J[Build CSV and workbook]
-  J --> K[Final quality gate]
+  H --> I{Contactable}
+  I -->|no| X
+  I -->|yes| J[Build CSV and workbook]
+  J --> K{Final quality gate}
+  K -->|fail| X
+  K -->|pass| L[Outreach-ready]
+
+  classDef entry fill:#dbeafe,stroke:#1d4ed8,color:#0f172a
+  classDef ai fill:#ede9fe,stroke:#6d28d9,color:#0f172a
+  classDef logic fill:#dcfce7,stroke:#15803d,color:#0f172a
+  classDef ext fill:#fef3c7,stroke:#b45309,color:#0f172a
+  classDef stop fill:#fee2e2,stroke:#b91c1c,color:#0f172a
+  class A entry
+  class C,D,I,K ai
+  class B,E,F,G,H,J logic
+  class L ext
+  class X stop
 ```
 
 ## Important decisions
