@@ -1,28 +1,24 @@
 # Dental Lead Qualification: Case Study
 
-`CASE_STUDY_ONLY` · source and lead data withheld
+A plausible URL can be the wrong business. A blocked page is not necessarily dead.
 
-This repository documents a multi-stage system for finding public dental-clinic
-profiles, validating contact paths, enriching missing fields, removing duplicates,
-and ranking records for human outreach review. It publishes the architecture and a
-synthetic data contract, not the scraper, private operating rules, or collected leads.
+This is how I built a lead pipeline that treats those as two separate problems, and
+refuses to call a record usable until it survives every check.
 
-## Outcome
-
-The private system produces source-specific CSV and workbook deliverables with an
-audit trail. A record is not considered outreach-ready merely because it was scraped:
-it must survive validation, deduplication, contactability checks, and a final quality
-gate.
+> **Engineering write-up. No runnable code.** The scraper, private operating rules,
+> and collected lead data stay out of this repository.
 
 ## Problem
 
 Lead lists become unreliable when discovery, identity matching, liveness checks,
-enrichment, scoring, and spreadsheet formatting are mixed together. A plausible URL
-can be the wrong business. A blocked page is not necessarily dead. Re-running a score
-update can accidentally stack points. A successful scraper process can still produce
-an unusable workbook.
+enrichment, scoring, and spreadsheet formatting are mixed together. Re-running a score
+update can accidentally stack points. A scraper process can finish successfully and
+still produce an unusable workbook.
 
-## System flow
+Being scraped does not make a record outreach-ready. It has to survive validation,
+deduplication, contactability checks, and a final quality gate.
+
+## How it works
 
 ```mermaid
 flowchart LR
@@ -54,41 +50,33 @@ flowchart LR
   class X stop
 ```
 
-## Important decisions
+The private system produces source-specific CSV and workbook deliverables with an
+audit trail.
 
-- Each source has its own adapter; qualification logic is shared.
-- “Does this page belong to the clinic?” and “Is this page live?” are separate jobs.
+## Key decisions
+
+- Each source gets its own adapter. The qualification logic is shared.
+- Does this page belong to the clinic, and is this page live, are separate jobs.
 - Uncertain, blocked, or login-gated pages become `Needs manual review`, not facts.
 - Score changes reconcile from prior evidence instead of adding the same points again.
-- Owner-name enrichment is for personalization and does not change lead quality.
+- Owner-name enrichment serves personalization and does not change lead quality.
 - Source outputs stay separate until a final cross-source reconciliation.
-- Current behavior and planned extensions are labeled separately in the operating docs.
+- The operating docs label current behavior and planned extensions separately.
 
 ## Safeguards
 
-- Paid sources stop after a credit and resume-state preflight until explicitly approved.
+- Paid sources stop for a credit and resume-state preflight until explicitly approved.
 - Scrapers do not invent missing contacts, services, locations, or business identities.
-- Existing verified values are not overwritten by weaker enrichment results.
+- Weaker enrichment results never overwrite existing verified values.
 - Dead, uncertain, and unresolved links have distinct states.
-- Runs are resumable and deduplicate on stable source identity before weaker name rules.
+- Runs are resumable and deduplicate on stable source identity before weaker name
+  rules.
 - CSV, workbook, audit, and run-summary counts must agree at the final gate.
-- Collected lead data and private source code are excluded from this repository.
 
 ## Verification
 
-The architecture was cross-checked against the current private workflow documentation
-on 2026-09-02. This public repository has no runnable scraper or benchmark suite, so it
-does not claim public execution, a lead count, a qualification accuracy rate, or a
-current live-source result.
-
-## Limitations
-
-- Public websites change, block automation, or expose incomplete information.
-- A working page does not prove that a business is a suitable outreach target.
-- Scoring prioritizes review; it is not a prediction of purchase intent.
-- Human review is still required before outreach and for ambiguous identity matches.
-- Collection and outreach must follow applicable platform terms, privacy law, and
-  anti-spam rules.
+I cross-checked the architecture against the current private workflow documentation
+on 2026-09-02.
 
 ## What is publicly available
 
@@ -97,8 +85,19 @@ current live-source result.
 - [Privacy and evidence boundary](docs/privacy-and-verification.md)
 - [Synthetic example records](examples/synthetic_records.json)
 
-There are no credentials, private URLs, source scripts, lead rows, workbooks, output
-state, browser profiles, paid-service details, or Git history from the private system.
+## Scope and limits
+
+This repository has no runnable scraper and no benchmark suite, so it claims no public
+execution, lead count, qualification accuracy rate, or live-source result. It contains
+no credentials, private URLs, source scripts, lead rows, workbooks, output state,
+browser profiles, paid-service details, or Git history from the private system.
+
+- Public websites change, block automation, or expose incomplete information.
+- A working page does not prove a business is a suitable outreach target.
+- Scoring prioritizes review. It is not a prediction of purchase intent.
+- Human review is still required before outreach and for ambiguous identity matches.
+- Collection and outreach must follow applicable platform terms, privacy law, and
+  anti-spam rules.
 
 ## Copyright
 
