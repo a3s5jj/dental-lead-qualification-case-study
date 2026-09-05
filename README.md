@@ -21,7 +21,7 @@ deduplication, contactability checks, and a final quality gate.
 ## How it works
 
 ```mermaid
-flowchart LR
+flowchart TD
   A[Source-specific discovery] --> B[Normalize record]
   B --> C{Appointment fit}
   C -->|no| X[Dropped]
